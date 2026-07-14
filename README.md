@@ -72,16 +72,6 @@ ResumeCraft can be instantly deployed to Vercel, Netlify, or GitHub Pages. No bu
 
 ---
 
-## 📸 Screenshots
-
-*(Replace these placeholders with actual screenshots of the application)*
-
-| Dark Mode Form | Live Preview | PDF Export |
-|:---:|:---:|:---:|
-| ![Form Placeholder](https://via.placeholder.com/400x250/0F172A/00D9FF?text=Resume+Form+Dark) | ![Preview Placeholder]([https://via.placeholder.com/400x250/FFFFFF/00D9FF?text=Live+Resume+Preview](https://resume-craft-one-chi.vercel.app/)) | ![PDF Placeholder](https://via.placeholder.com/400x250/1E293B/00D9FF?text=Generated+PDF) |
-
----
-
 ## 🔮 Future Improvements
 
 While this project is complete and production-ready, potential future features include:
@@ -106,5 +96,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Email:** [gm072775@gmail.com]
 - **GitHub:** [https://github.com/Gunjan9711](https://github.com/Gunjan9711/ResumeCraft.git)
+- **Live Demo:** [(https://resume-craft-one-chi.vercel.app/)]
 - **Portfolio:** (https://github.com/Gunjan9711/Portfolio.git)]
 ---
