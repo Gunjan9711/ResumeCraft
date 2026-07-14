@@ -1,0 +1,2517 @@
+/* ============================================================
+   ResumeCraft — Premium Resume Builder
+   Complete Stylesheet
+   ============================================================
+   TABLE OF CONTENTS
+   ------------------
+   1.  CSS Variables & Design Tokens
+   2.  Reset & Base
+   3.  Utility Classes
+   4.  Typography
+   5.  Layout
+   6.  Header
+   7.  Progress Bar
+   8.  Form Panel
+   9.  Form Cards (Glassmorphism)
+   10. Form Inputs & Labels
+   11. Buttons
+   12. Dynamic Entries
+   13. Skill / Hobby Badges
+   14. Photo Upload
+   15. Preview Panel
+   16. Resume Page (A4)
+   17. Resume Sections
+   18. Resume Templates
+   19. Modal & Overlays
+   20. Toast Notifications
+   21. Spinner
+   22. Footer
+   23. Animations & Keyframes
+   24. Light Theme Override
+   25. Responsive — Tablet
+   26. Responsive — Mobile
+   27. Responsive — Small Mobile
+   28. Print Styles
+   ============================================================ */
+
+
+/* ==========================================================
+   1. CSS VARIABLES & DESIGN TOKENS
+   ========================================================== */
+:root {
+    /* --- Colors (Dark Theme - Default) --- */
+    --color-bg-primary:     #0F172A;
+    --color-bg-secondary:   #1E293B;
+    --color-card:           rgba(255, 255, 255, 0.08);
+    --color-card-hover:     rgba(255, 255, 255, 0.12);
+    --color-accent:         #00D9FF;
+    --color-accent-hover:   #00BEE6;
+    --color-accent-glow:    rgba(0, 217, 255, 0.25);
+    --color-text:           #FFFFFF;
+    --color-text-secondary: #CBD5E1;
+    --color-text-muted:     #94A3B8;
+    --color-error:          #EF4444;
+    --color-success:        #22C55E;
+    --color-warning:        #F59E0B;
+    --color-border:         rgba(255, 255, 255, 0.15);
+    --color-border-focus:   rgba(0, 217, 255, 0.5);
+    --color-input-bg:       rgba(255, 255, 255, 0.05);
+    --color-overlay:        rgba(0, 0, 0, 0.6);
+    --color-danger:         #EF4444;
+    --color-danger-hover:   #DC2626;
+
+    /* --- Spacing (8px system) --- */
+    --space-xs:   4px;
+    --space-sm:   8px;
+    --space-md:   16px;
+    --space-lg:   24px;
+    --space-xl:   32px;
+    --space-2xl:  48px;
+    --space-3xl:  64px;
+
+    /* --- Typography --- */
+    --font-family:   'Poppins', 'Inter', 'Roboto', 'Open Sans', 'Lato', sans-serif;
+    --font-size-xs:  0.7rem;
+    --font-size-sm:  0.8rem;
+    --font-size-md:  0.9rem;
+    --font-size-base: 1rem;
+    --font-size-lg:  1.15rem;
+    --font-size-xl:  1.35rem;
+    --font-size-2xl: 1.75rem;
+    --font-size-3xl: 2.25rem;
+    --font-weight-light:    300;
+    --font-weight-regular:  400;
+    --font-weight-medium:   500;
+    --font-weight-semibold: 600;
+    --font-weight-bold:     700;
+
+    /* --- Border Radius --- */
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   16px;
+    --radius-xl:   24px;
+    --radius-full: 9999px;
+
+    /* --- Shadows --- */
+    --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-xl:  0 16px 48px rgba(0, 0, 0, 0.35);
+    --shadow-glow: 0 0 20px var(--color-accent-glow);
+
+    /* --- Transitions --- */
+    --transition-fast:   0.15s ease;
+    --transition-base:   0.25s ease;
+    --transition-slow:   0.4s ease;
+    --transition-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* --- Dimensions --- */
+    --header-height: 72px;
+    --card-padding:  var(--space-lg);
+    --resume-max-width: 794px;   /* ≈ A4 width at 96dpi */
+}
+
+
+/* ==========================================================
+   2. RESET & BASE
+   ========================================================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    animation: fadeInPage 0.6s ease-out;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-accent-hover);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+    border: none;
+    background: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+::selection {
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+}
+
+
+/* ==========================================================
+   3. UTILITY CLASSES
+   ========================================================== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.required {
+    color: var(--color-error);
+    font-weight: var(--font-weight-semibold);
+}
+
+.optional {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+}
+
+.heart {
+    color: var(--color-error);
+    animation: heartbeat 1.2s ease-in-out infinite;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+
+/* ==========================================================
+   4. TYPOGRAPHY
+   ========================================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+}
+
+
+/* ==========================================================
+   5. LAYOUT
+   ========================================================== */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-xl);
+    min-height: calc(100vh - var(--header-height));
+}
+
+
+/* ==========================================================
+   6. HEADER
+   ========================================================== */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
+    height: var(--header-height);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+    height: 100%;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.logo-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--color-accent), #6366F1);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 217, 255, 0.3);
+    transition: transform var(--transition-spring);
+}
+
+.logo-icon:hover {
+    transform: rotate(-8deg) scale(1.05);
+}
+
+.logo-text h1 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    background: linear-gradient(135deg, var(--color-accent), #818CF8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+
+.logo-text p {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-light);
+    margin-top: -2px;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.header-select {
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-width: 110px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23CBD5E1' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+}
+
+.header-select:hover {
+    border-color: var(--color-accent);
+}
+
+.header-select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.header-select option {
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+}
+
+/* Accent Color Picker */
+.accent-picker-group {
+    gap: var(--space-sm);
+}
+
+.accent-color-picker {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    transition: border-color var(--transition-fast);
+}
+
+.accent-color-picker:hover {
+    border-color: var(--color-accent);
+}
+
+.accent-color-picker::-webkit-color-swatch-wrapper {
+    padding: 2px;
+}
+
+.accent-color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 4px;
+}
+
+.accent-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    display: none;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-base);
+}
+
+.theme-toggle-btn:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-glow);
+    transform: scale(1.05);
+}
+
+.theme-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+
+/* ==========================================================
+   7. PROGRESS BAR
+   ========================================================== */
+.progress-section {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: var(--space-md) var(--space-xl) 0;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: var(--color-card);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-accent), #6366F1, #A855F7);
+    border-radius: var(--radius-full);
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+}
+
+.progress-text {
+    position: absolute;
+    right: 0;
+    top: 14px;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    font-weight: var(--font-weight-medium);
+}
+
+.progress-checklist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    padding-bottom: var(--space-sm);
+}
+
+.checklist-item {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    transition: color var(--transition-fast);
+}
+
+.checklist-item.completed {
+    color: var(--color-success);
+}
+
+.checklist-item.completed i {
+    font-weight: 900;
+}
+
+
+/* ==========================================================
+   8. FORM PANEL
+   ========================================================== */
+.form-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+
+/* ==========================================================
+   9. FORM CARDS (GLASSMORPHISM)
+   ========================================================== */
+.form-card {
+    background: var(--color-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--card-padding);
+    transition: all var(--transition-base);
+    animation: slideUp 0.5s ease-out both;
+}
+
+/* Stagger entrance animation for each card */
+.form-card:nth-child(1)  { animation-delay: 0.05s; }
+.form-card:nth-child(2)  { animation-delay: 0.1s; }
+.form-card:nth-child(3)  { animation-delay: 0.15s; }
+.form-card:nth-child(4)  { animation-delay: 0.2s; }
+.form-card:nth-child(5)  { animation-delay: 0.25s; }
+.form-card:nth-child(6)  { animation-delay: 0.3s; }
+.form-card:nth-child(7)  { animation-delay: 0.35s; }
+.form-card:nth-child(8)  { animation-delay: 0.4s; }
+.form-card:nth-child(9)  { animation-delay: 0.45s; }
+.form-card:nth-child(10) { animation-delay: 0.5s; }
+.form-card:nth-child(11) { animation-delay: 0.55s; }
+.form-card:nth-child(12) { animation-delay: 0.6s; }
+
+.form-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.card-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: linear-gradient(135deg, var(--color-accent), #6366F1);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #fff;
+    transition: transform var(--transition-spring);
+}
+
+.form-card:hover .card-icon {
+    transform: rotate(-5deg) scale(1.08);
+}
+
+.card-title-group h2 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.card-title-group p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+
+/* ==========================================================
+   10. FORM INPUTS & LABELS
+   ========================================================== */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.form-group label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: var(--space-md);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    pointer-events: none;
+    transition: color var(--transition-fast);
+    z-index: 1;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    padding: 12px 14px 12px 42px;
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    transition: all var(--transition-fast);
+}
+
+.input-wrapper input:hover,
+.input-wrapper select:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.input-wrapper input:focus + .input-icon,
+.input-wrapper input:focus ~ .input-icon {
+    color: var(--color-accent);
+}
+
+/* Inputs without icon wrapper */
+.form-group input:not(.input-wrapper input),
+.form-group select:not(.input-wrapper select) {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    transition: all var(--transition-fast);
+}
+
+.form-group input:not(.input-wrapper input):hover,
+.form-group select:not(.input-wrapper select):hover {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.form-group input:not(.input-wrapper input):focus,
+.form-group select:not(.input-wrapper select):focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Select without wrapper */
+.form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23CBD5E1' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.form-group select option {
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.5;
+    transition: all var(--transition-fast);
+}
+
+textarea:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.textarea-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.char-counter {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+}
+
+.char-counter.over-limit {
+    color: var(--color-error);
+}
+
+/* Placeholder styling */
+input::placeholder,
+textarea::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+/* Error messages */
+.error-msg {
+    font-size: var(--font-size-xs);
+    color: var(--color-error);
+    min-height: 0;
+    transition: all var(--transition-fast);
+}
+
+.error-msg:not(:empty) {
+    min-height: 18px;
+    margin-top: 2px;
+}
+
+/* Helper text */
+.helper-text {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+/* Input validation states */
+.input-error {
+    border-color: var(--color-error) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+.input-success {
+    border-color: var(--color-success) !important;
+}
+
+
+/* ==========================================================
+   11. BUTTONS
+   ========================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    white-space: nowrap;
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Primary */
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-accent), #6366F1);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 14px rgba(0, 217, 255, 0.25);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 217, 255, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Secondary */
+.btn-secondary {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-accent-glow);
+}
+
+/* Danger */
+.btn-danger {
+    background: transparent;
+    color: var(--color-error);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--color-error);
+}
+
+/* Add Button */
+.btn-add {
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px dashed var(--color-accent);
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-size: var(--font-size-sm);
+    width: 100%;
+    transition: all var(--transition-base);
+}
+
+.btn-add:hover {
+    background: var(--color-accent-glow);
+    border-style: solid;
+    transform: translateY(-1px);
+}
+
+/* Icon-only button */
+.btn-icon {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+}
+
+/* Delete button */
+.btn-delete {
+    color: var(--color-text-muted);
+    border: 1px solid transparent;
+}
+
+.btn-delete:hover {
+    color: var(--color-error);
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Full width */
+.btn-full {
+    width: 100%;
+}
+
+/* Heroes button */
+.btn-heroes {
+    background: linear-gradient(135deg, #6366F1, #A855F7, #EC4899);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-weight: var(--font-weight-semibold);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+    letter-spacing: 0.02em;
+}
+
+.btn-heroes:hover {
+    box-shadow: 0 6px 24px rgba(99, 102, 241, 0.45);
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Skill add row */
+.skill-input-row {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: flex-start;
+}
+
+.skill-input-wrapper {
+    flex: 1;
+}
+
+.btn-add-skill {
+    width: auto;
+    min-width: 80px;
+    border-style: solid;
+    margin-top: 0;
+}
+
+
+/* ==========================================================
+   12. DYNAMIC ENTRIES
+   ========================================================== */
+.dynamic-entry {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    animation: slideUp 0.3s ease-out;
+    transition: all var(--transition-base);
+}
+
+.dynamic-entry:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.entry-number {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+}
+
+.entry-error {
+    grid-column: 1 / -1;
+}
+
+
+/* ==========================================================
+   13. SKILL / HOBBY BADGES
+   ========================================================== */
+.skills-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    min-height: 24px;
+}
+
+.skill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 6px 14px;
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-medium);
+    animation: badgePop 0.3s var(--transition-spring);
+    transition: all var(--transition-fast);
+}
+
+.skill-badge:hover {
+    background: rgba(0, 217, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.skill-badge .badge-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background: transparent;
+}
+
+.skill-badge .badge-remove:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--color-error);
+}
+
+
+/* ==========================================================
+   14. PHOTO UPLOAD
+   ========================================================== */
+.photo-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.photo-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px dashed var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all var(--transition-base);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    gap: var(--space-xs);
+    background: var(--color-input-bg);
+}
+
+.photo-preview i {
+    font-size: 1.8rem;
+    transition: transform var(--transition-spring);
+}
+
+.photo-preview:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-accent-glow);
+}
+
+.photo-preview:hover i {
+    transform: scale(1.1);
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.photo-preview.has-photo {
+    border-style: solid;
+    border-color: var(--color-accent);
+}
+
+
+/* ==========================================================
+   15. PREVIEW PANEL
+   ========================================================== */
+.preview-panel {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-md));
+    height: fit-content;
+    max-height: calc(100vh - var(--header-height) - var(--space-xl));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.preview-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.preview-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.preview-title i {
+    color: var(--color-accent);
+}
+
+.preview-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.resume-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+    flex: 1;
+    max-height: calc(100vh - var(--header-height) - 120px);
+}
+
+.resume-wrapper::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+/* ==========================================================
+   16. RESUME PAGE (A4)
+   ========================================================== */
+.resume-page {
+    width: 100%;
+    max-width: var(--resume-max-width);
+    margin: 0 auto;
+    background: #FFFFFF;
+    color: #1a1a2e;
+    min-height: 1000px;
+    padding: 40px 48px;
+    font-family: var(--font-family);
+    font-size: 13px;
+    line-height: 1.55;
+    position: relative;
+}
+
+/* Empty State */
+.resume-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+    text-align: center;
+    color: #94A3B8;
+    gap: var(--space-md);
+}
+
+.resume-empty-state .empty-icon {
+    font-size: 4rem;
+    opacity: 0.3;
+    color: var(--color-accent);
+}
+
+.resume-empty-state h3 {
+    font-size: var(--font-size-xl);
+    color: #475569;
+    font-weight: var(--font-weight-semibold);
+}
+
+.resume-empty-state p {
+    font-size: var(--font-size-md);
+    max-width: 320px;
+}
+
+
+/* ==========================================================
+   17. RESUME SECTIONS
+   ========================================================== */
+
+/* --- Resume Header --- */
+.resume-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--color-accent, #00D9FF);
+}
+
+.resume-header-left {
+    flex-shrink: 0;
+}
+
+.resume-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F1F5F9;
+    border: 3px solid var(--color-accent, #00D9FF);
+}
+
+.resume-photo i {
+    font-size: 3rem;
+    color: #CBD5E1;
+}
+
+.resume-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.resume-header-right {
+    flex: 1;
+}
+
+.resume-name {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0F172A;
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.resume-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 11.5px;
+    color: #475569;
+}
+
+.resume-contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.resume-contact-item i {
+    color: var(--color-accent, #00D9FF);
+    font-size: 11px;
+    width: 14px;
+    text-align: center;
+}
+
+.resume-contact-item a {
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.resume-contact-item a:hover {
+    color: var(--color-accent, #00D9FF);
+}
+
+/* --- Section Titles --- */
+.resume-section {
+    margin-bottom: 16px;
+}
+
+.resume-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.resume-section-title i {
+    color: var(--color-accent, #00D9FF);
+    font-size: 13px;
+    width: 16px;
+    text-align: center;
+}
+
+.resume-divider {
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent, #00D9FF), transparent);
+    margin-bottom: 12px;
+    border-radius: 2px;
+}
+
+/* --- Summary --- */
+.resume-summary-text {
+    color: #334155;
+    font-size: 12.5px;
+    line-height: 1.6;
+}
+
+/* --- Education Items --- */
+.resume-edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.resume-edu-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.resume-edu-left {
+    flex: 1;
+}
+
+.resume-edu-degree {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.resume-edu-college {
+    font-size: 12px;
+    color: #475569;
+}
+
+.resume-edu-university {
+    font-size: 11.5px;
+    color: #64748B;
+    font-style: italic;
+}
+
+.resume-edu-right {
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.resume-edu-years {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-accent, #00D9FF);
+}
+
+.resume-edu-grade {
+    font-size: 11.5px;
+    color: #64748B;
+}
+
+.resume-edu-location {
+    font-size: 11px;
+    color: #94A3B8;
+}
+
+/* --- Skills Badges --- */
+.resume-skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.resume-skill-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    background: rgba(0, 217, 255, 0.08);
+    border: 1px solid rgba(0, 217, 255, 0.25);
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #0F172A;
+}
+
+/* --- Project Items --- */
+.resume-project-item {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.resume-project-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.resume-project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.resume-project-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.resume-project-duration {
+    font-size: 11.5px;
+    color: #64748B;
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+.resume-project-tech {
+    font-size: 11.5px;
+    color: var(--color-accent, #00D9FF);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.resume-project-desc {
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.resume-project-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.resume-project-links a {
+    font-size: 11px;
+    color: var(--color-accent, #00D9FF);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.resume-project-links a:hover {
+    text-decoration: underline;
+}
+
+/* --- Experience Items --- */
+.resume-exp-item {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.resume-exp-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.resume-exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.resume-exp-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.resume-exp-company {
+    font-size: 12.5px;
+    color: #475569;
+}
+
+.resume-exp-right {
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.resume-exp-duration {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-accent, #00D9FF);
+}
+
+.resume-exp-location {
+    font-size: 11px;
+    color: #94A3B8;
+}
+
+.resume-exp-desc {
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.5;
+    margin-top: 4px;
+}
+
+.resume-fresher-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    background: #F1F5F9;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #64748B;
+    font-style: italic;
+}
+
+/* --- Certificate Items --- */
+.resume-cert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.resume-cert-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.resume-cert-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.resume-cert-org {
+    font-size: 12px;
+    color: #475569;
+}
+
+.resume-cert-right {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.resume-cert-year {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-accent, #00D9FF);
+}
+
+.resume-cert-link {
+    font-size: 11px;
+}
+
+/* --- Achievements --- */
+.resume-achievements-list {
+    padding-left: 18px;
+    list-style: disc;
+}
+
+.resume-achievements-list li {
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    color: #334155;
+    list-style: disc;
+}
+
+.resume-achv-year {
+    color: #64748B;
+    font-size: 11px;
+    margin-left: 6px;
+}
+
+/* --- Languages --- */
+.resume-languages-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+}
+
+.resume-lang-item {
+    font-size: 12.5px;
+    color: #334155;
+}
+
+.resume-lang-proficiency {
+    color: #64748B;
+    font-size: 11.5px;
+}
+
+/* --- Hobbies --- */
+.resume-hobbies-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.resume-hobby-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    background: #F1F5F9;
+    border-radius: 20px;
+    font-size: 11.5px;
+    color: #475569;
+    font-weight: 500;
+}
+
+/* --- References --- */
+.resume-ref-item {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.resume-ref-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.resume-ref-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.resume-ref-position {
+    font-size: 12px;
+    color: #475569;
+}
+
+.resume-ref-contact {
+    font-size: 11.5px;
+    color: #64748B;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.resume-ref-contact span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* --- Custom Sections --- */
+.resume-custom-section {
+    margin-bottom: 16px;
+}
+
+.resume-custom-content {
+    font-size: 12.5px;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+
+/* ==========================================================
+   18. RESUME TEMPLATES
+   ========================================================== */
+
+/* --- Template: Professional --- */
+.template-professional .resume-header {
+    border-bottom: 3px solid #1E293B;
+    padding-bottom: 24px;
+}
+
+.template-professional .resume-name {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+}
+
+.template-professional .resume-section-title {
+    background: #F8FAFC;
+    padding: 4px 10px;
+    border-left: 3px solid var(--color-accent, #00D9FF);
+    border-radius: 0;
+}
+
+.template-professional .resume-divider {
+    display: none;
+}
+
+.template-professional .resume-skill-badge {
+    border-radius: 4px;
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+}
+
+/* --- Template: Minimal --- */
+.template-minimal .resume-header {
+    border-bottom: 1px solid #E2E8F0;
+    gap: 16px;
+}
+
+.template-minimal .resume-photo {
+    width: 72px;
+    height: 72px;
+    border-width: 2px;
+}
+
+.template-minimal .resume-name {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.template-minimal .resume-section-title {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: #64748B;
+}
+
+.template-minimal .resume-section-title i {
+    display: none;
+}
+
+.template-minimal .resume-divider {
+    height: 1px;
+    background: #E2E8F0;
+}
+
+.template-minimal .resume-skill-badge {
+    background: none;
+    border: 1px solid #CBD5E1;
+    border-radius: 4px;
+    font-size: 11px;
+    padding: 2px 10px;
+}
+
+/* --- Template: Creative --- */
+.template-creative .resume-page {
+    padding-top: 0;
+}
+
+.template-creative .resume-header {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    color: #fff;
+    padding: 28px 32px;
+    margin: -40px -48px 24px -48px;
+    border-bottom: none;
+    border-radius: 0;
+}
+
+.template-creative .resume-name {
+    color: #fff;
+}
+
+.template-creative .resume-contact {
+    color: #CBD5E1;
+}
+
+.template-creative .resume-contact-item a {
+    color: #CBD5E1;
+}
+
+.template-creative .resume-photo {
+    border-color: var(--color-accent, #00D9FF);
+    background: #334155;
+}
+
+.template-creative .resume-photo i {
+    color: #64748B;
+}
+
+.template-creative .resume-section-title {
+    color: var(--color-accent, #00D9FF);
+}
+
+.template-creative .resume-divider {
+    background: linear-gradient(90deg, var(--color-accent, #00D9FF), #6366F1, transparent);
+    height: 3px;
+}
+
+.template-creative .resume-skill-badge {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(99, 102, 241, 0.1));
+    border-color: rgba(0, 217, 255, 0.3);
+    font-weight: 600;
+}
+
+.template-creative .resume-hobby-badge {
+    background: linear-gradient(135deg, #F1F5F9, #E2E8F0);
+}
+
+
+/* ==========================================================
+   19. MODAL & OVERLAYS
+   ========================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-overlay);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-icon {
+    font-size: 3rem;
+    color: var(--color-warning);
+    margin-bottom: var(--space-md);
+}
+
+.modal-card h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-sm);
+    color: var(--color-text);
+}
+
+.modal-card p {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+}
+
+
+/* ==========================================================
+   20. TOAST NOTIFICATIONS
+   ========================================================== */
+.toast-container {
+    position: fixed;
+    top: calc(var(--header-height) + var(--space-md));
+    right: var(--space-lg);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 14px 20px;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-width: 280px;
+    max-width: 400px;
+    pointer-events: auto;
+    animation: toastSlideIn 0.35s ease-out;
+    transition: all var(--transition-base);
+}
+
+.toast.toast-exit {
+    animation: toastSlideOut 0.3s ease-in forwards;
+}
+
+.toast-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.toast-success .toast-icon { color: var(--color-success); }
+.toast-error   .toast-icon { color: var(--color-error); }
+.toast-warning .toast-icon { color: var(--color-warning); }
+.toast-info    .toast-icon { color: var(--color-accent); }
+
+.toast-message {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+    flex: 1;
+}
+
+.toast-close {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    padding: 4px;
+    transition: color var(--transition-fast);
+    background: none;
+    border: none;
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    color: var(--color-text);
+}
+
+
+/* ==========================================================
+   21. SPINNER
+   ========================================================== */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-overlay);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+.spinner-card {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto var(--space-md);
+}
+
+.spinner-card p {
+    font-size: var(--font-size-md);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+
+/* ==========================================================
+   22. FOOTER
+   ========================================================== */
+.footer {
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-2xl) var(--space-xl);
+    margin-top: var(--space-3xl);
+}
+
+.footer-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    text-align: center;
+}
+
+.footer-brand h3 {
+    font-size: var(--font-size-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    justify-content: center;
+    color: var(--color-text);
+}
+
+.footer-brand h3 i {
+    color: var(--color-accent);
+}
+
+.footer-brand p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-xs);
+}
+
+.footer-developer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.footer-developer p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.footer-social {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    margin-top: var(--space-sm);
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    transition: all var(--transition-base);
+}
+
+.footer-social a:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-glow);
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+}
+
+.footer-bottom p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* Mobile action buttons (hidden on desktop) */
+.mobile-actions {
+    display: none;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+
+/* ==========================================================
+   23. ANIMATIONS & KEYFRAMES
+   ========================================================== */
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes badgePop {
+    0%   { opacity: 0; transform: scale(0.6); }
+    60%  { transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(80px) scale(0.9);
+    }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 8px var(--color-accent-glow); }
+    50%      { box-shadow: 0 0 18px var(--color-accent-glow); }
+}
+
+
+/* ==========================================================
+   24. LIGHT THEME OVERRIDE
+   ========================================================== */
+[data-theme="light"] {
+    --color-bg-primary:     #F8FAFC;
+    --color-bg-secondary:   #FFFFFF;
+    --color-card:           rgba(255, 255, 255, 0.9);
+    --color-card-hover:     rgba(255, 255, 255, 1);
+    --color-text:           #0F172A;
+    --color-text-secondary: #475569;
+    --color-text-muted:     #94A3B8;
+    --color-border:         rgba(0, 0, 0, 0.1);
+    --color-border-focus:   rgba(0, 217, 255, 0.4);
+    --color-input-bg:       rgba(0, 0, 0, 0.03);
+    --color-overlay:        rgba(0, 0, 0, 0.4);
+    --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-xl:  0 16px 48px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .header {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .header-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+}
+
+[data-theme="light"] .header-select option {
+    background: #fff;
+    color: #0F172A;
+}
+
+[data-theme="light"] .form-card {
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="light"] .form-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="light"] .dynamic-entry {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="light"] .modal-card,
+[data-theme="light"] .spinner-card {
+    background: #fff;
+}
+
+[data-theme="light"] .toast {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .resume-wrapper {
+    background: #F1F5F9;
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="light"] .footer {
+    background: #fff;
+}
+
+[data-theme="light"] .form-group select option {
+    background: #fff;
+    color: #0F172A;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+    color: #94A3B8;
+    opacity: 0.8;
+}
+
+
+/* ==========================================================
+   25. RESPONSIVE — TABLET (max 1200px)
+   ========================================================== */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 55fr 45fr;
+        gap: var(--space-lg);
+        padding: var(--space-md) var(--space-lg);
+    }
+
+    .header-inner {
+        padding: 0 var(--space-lg);
+    }
+
+    .progress-section {
+        padding: var(--space-md) var(--space-lg) 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        padding: var(--space-md);
+    }
+
+    .preview-panel {
+        position: static;
+        max-height: none;
+    }
+
+    .resume-wrapper {
+        max-height: 600px;
+    }
+
+    .header-controls {
+        gap: var(--space-sm);
+    }
+
+    .accent-label {
+        display: none;
+    }
+}
+
+
+/* ==========================================================
+   26. RESPONSIVE — MOBILE (max 768px)
+   ========================================================== */
+@media (max-width: 768px) {
+    :root {
+        --header-height: 64px;
+        --card-padding: var(--space-md);
+    }
+
+    .header-inner {
+        padding: 0 var(--space-md);
+    }
+
+    .logo-text p {
+        display: none;
+    }
+
+    .logo-text h1 {
+        font-size: var(--font-size-lg);
+    }
+
+    .header-controls {
+        gap: 6px;
+    }
+
+    .header-select {
+        min-width: 85px;
+        padding: 6px 24px 6px 8px;
+        font-size: var(--font-size-xs);
+    }
+
+    .accent-picker-group {
+        display: none;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: 1;
+    }
+
+    .preview-actions {
+        display: none;
+    }
+
+    .mobile-actions {
+        display: flex;
+    }
+
+    .progress-checklist {
+        display: none;
+    }
+
+    .progress-section {
+        padding: var(--space-sm) var(--space-md) 0;
+    }
+
+    .resume-page {
+        padding: 24px 20px;
+        font-size: 12px;
+    }
+
+    .resume-name {
+        font-size: 20px;
+    }
+
+    .resume-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .resume-contact {
+        justify-content: center;
+    }
+
+    .resume-edu-item {
+        flex-direction: column;
+    }
+
+    .resume-edu-right {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 4px;
+    }
+
+    .skill-input-row {
+        flex-direction: column;
+    }
+
+    .btn-add-skill {
+        width: 100%;
+    }
+
+    .footer-inner {
+        padding: 0 var(--space-md);
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions .btn {
+        width: 100%;
+    }
+
+    .toast-container {
+        right: var(--space-md);
+        left: var(--space-md);
+    }
+
+    .toast {
+        min-width: auto;
+        max-width: none;
+    }
+
+    /* Creative template mobile fix */
+    .template-creative .resume-header {
+        margin: -24px -20px 20px -20px;
+        padding: 20px;
+    }
+}
+
+
+/* ==========================================================
+   27. RESPONSIVE — SMALL MOBILE (max 480px)
+   ========================================================== */
+@media (max-width: 480px) {
+    .header-logo {
+        gap: var(--space-sm);
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .logo-text h1 {
+        font-size: var(--font-size-base);
+    }
+
+    .header-select {
+        min-width: 70px;
+    }
+
+    .theme-toggle-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .card-icon {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        font-size: 1rem;
+    }
+
+    .card-title-group h2 {
+        font-size: var(--font-size-base);
+    }
+
+    .photo-preview {
+        width: 100px;
+        height: 100px;
+    }
+
+    .resume-page {
+        padding: 16px 14px;
+    }
+
+    .resume-name {
+        font-size: 18px;
+    }
+
+    .resume-photo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .resume-project-header {
+        flex-direction: column;
+    }
+
+    .resume-project-duration {
+        margin-left: 0;
+    }
+}
+
+
+/* ==========================================================
+   28. PRINT STYLES
+   ========================================================== */
+@media print {
+    /* Hide everything except the resume */
+    .header,
+    .progress-section,
+    .form-panel,
+    .preview-toolbar,
+    .mobile-actions,
+    .footer,
+    .toast-container,
+    .modal-overlay,
+    .spinner-overlay {
+        display: none !important;
+    }
+
+    body {
+        background: #fff !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main-content {
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+
+    .preview-panel {
+        position: static;
+        max-height: none;
+        width: 100%;
+    }
+
+    .resume-wrapper {
+        border: none;
+        background: none;
+        overflow: visible;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    .resume-page {
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        min-height: auto;
+        max-width: 100%;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .resume-empty-state {
+        display: none !important;
+    }
+
+    .resume-content {
+        display: block !important;
+    }
+
+    /* Prevent page breaks inside sections */
+    .resume-section {
+        break-inside: avoid;
+    }
+
+    .resume-edu-item,
+    .resume-project-item,
+    .resume-exp-item,
+    .resume-cert-item,
+    .resume-ref-item {
+        break-inside: avoid;
+    }
+}
+
+/* PDF generation specific styles */
+.pdf-generating .resume-page {
+    width: 794px;
+    min-height: 1123px;
+}

@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <!-- ==================== META ==================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ResumeCraft – Build beautiful professional resumes online with live preview, PDF download, multiple templates, and modern UI. No signup required.">
+    <meta name="keywords" content="resume builder, online resume, CV maker, professional resume, free resume builder, PDF resume">
+    <meta name="author" content="Developer">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="ResumeCraft – Professional Resume Builder">
+    <meta property="og:description" content="Build beautiful professional resumes in minutes with live preview, PDF download, and multiple templates.">
+    <meta property="og:type" content="website">
+    <title>ResumeCraft – Professional Resume Builder</title>
+
+    <!-- ==================== FAVICON ==================== -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+
+    <!-- ==================== FONTS ==================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- ==================== ICONS ==================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- ==================== STYLES ==================== -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast-container" class="toast-container" role="alert" aria-live="polite"></div>
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="header" role="banner">
+        <div class="header-inner">
+            <!-- Logo -->
+            <div class="header-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>ResumeCraft</h1>
+                    <p>Professional Resume Builder</p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="header-controls">
+                <!-- Font Selector -->
+                <div class="control-group" title="Choose Font">
+                    <label for="font-selector" class="sr-only">Font Family</label>
+                    <select id="font-selector" class="header-select" aria-label="Select font family">
+                        <option value="Poppins">Poppins</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Inter">Inter</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Lato">Lato</option>
+                    </select>
+                </div>
+
+                <!-- Template Selector -->
+                <div class="control-group" title="Choose Template">
+                    <label for="template-selector" class="sr-only">Resume Template</label>
+                    <select id="template-selector" class="header-select" aria-label="Select resume template">
+                        <option value="modern">Modern</option>
+                        <option value="professional">Professional</option>
+                        <option value="minimal">Minimal</option>
+                        <option value="creative">Creative</option>
+                    </select>
+                </div>
+
+                <!-- Accent Color Picker -->
+                <div class="control-group accent-picker-group" title="Accent Color">
+                    <label for="accent-color-picker" class="sr-only">Accent Color</label>
+                    <input type="color" id="accent-color-picker" class="accent-color-picker" value="#00D9FF" aria-label="Choose accent color">
+                    <span class="accent-label">Accent</span>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle Theme">
+                    <i class="fas fa-moon" id="theme-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== PROGRESS BAR ==================== -->
+    <div class="progress-section" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Resume completion progress">
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar">
+                <span class="progress-text" id="progress-text">0% Complete</span>
+            </div>
+        </div>
+        <div class="progress-checklist" id="progress-checklist">
+            <span class="checklist-item" data-section="personal"><i class="far fa-circle"></i> Personal</span>
+            <span class="checklist-item" data-section="summary"><i class="far fa-circle"></i> Summary</span>
+            <span class="checklist-item" data-section="education"><i class="far fa-circle"></i> Education</span>
+            <span class="checklist-item" data-section="skills"><i class="far fa-circle"></i> Skills</span>
+            <span class="checklist-item" data-section="projects"><i class="far fa-circle"></i> Projects</span>
+            <span class="checklist-item" data-section="experience"><i class="far fa-circle"></i> Experience</span>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content" role="main">
+
+        <!-- ==================== LEFT SIDE: RESUME FORM ==================== -->
+        <section class="form-panel" aria-label="Resume Builder Form">
+
+            <!-- ====== SECTION 1: PERSONAL INFORMATION ====== -->
+            <article class="form-card" id="card-personal">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-user"></i></div>
+                    <div class="card-title-group">
+                        <h2>Personal Information</h2>
+                        <p>Your identity and contact details</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Profile Photo -->
+                    <div class="photo-upload-area">
+                        <div class="photo-preview" id="photo-preview">
+                            <i class="fas fa-camera"></i>
+                            <span>Upload Photo</span>
+                        </div>
+                        <input type="file" id="profile-photo" accept="image/png, image/jpg, image/jpeg" class="hidden-file-input" aria-label="Upload profile photo">
+                        <p class="helper-text">PNG, JPG, JPEG — Max 2MB</p>
+                    </div>
+
+                    <div class="form-grid">
+                        <!-- Full Name -->
+                        <div class="form-group full-width">
+                            <label for="full-name">Full Name <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user input-icon"></i>
+                                <input type="text" id="full-name" name="fullName" placeholder="e.g. John Doe" minlength="3" maxlength="60" required aria-required="true">
+                            </div>
+                            <span class="error-msg" id="error-full-name"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="email" name="email" placeholder="e.g. john@example.com" required aria-required="true">
+                            </div>
+                            <span class="error-msg" id="error-email"></span>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input type="tel" id="phone" name="phone" placeholder="e.g. 9876543210" minlength="10" maxlength="15" required aria-required="true">
+                            </div>
+                            <span class="error-msg" id="error-phone"></span>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="form-group full-width">
+                            <label for="address">Address</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt input-icon"></i>
+                                <input type="text" id="address" name="address" placeholder="e.g. 123 Main Street">
+                            </div>
+                        </div>
+
+                        <!-- City -->
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-city input-icon"></i>
+                                <input type="text" id="city" name="city" placeholder="e.g. Mumbai">
+                            </div>
+                        </div>
+
+                        <!-- State -->
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map input-icon"></i>
+                                <input type="text" id="state" name="state" placeholder="e.g. Maharashtra">
+                            </div>
+                        </div>
+
+                        <!-- Country -->
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-globe input-icon"></i>
+                                <input type="text" id="country" name="country" placeholder="e.g. India">
+                            </div>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="form-group">
+                            <label for="dob">Date of Birth <span class="optional">(Optional)</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-calendar input-icon"></i>
+                                <input type="date" id="dob" name="dob" aria-label="Date of birth">
+                            </div>
+                        </div>
+
+                        <!-- LinkedIn -->
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn URL</label>
+                            <div class="input-wrapper">
+                                <i class="fab fa-linkedin input-icon"></i>
+                                <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourname">
+                            </div>
+                            <span class="error-msg" id="error-linkedin"></span>
+                        </div>
+
+                        <!-- GitHub -->
+                        <div class="form-group">
+                            <label for="github">GitHub URL</label>
+                            <div class="input-wrapper">
+                                <i class="fab fa-github input-icon"></i>
+                                <input type="url" id="github" name="github" placeholder="https://github.com/yourusername">
+                            </div>
+                            <span class="error-msg" id="error-github"></span>
+                        </div>
+
+                        <!-- Portfolio -->
+                        <div class="form-group full-width">
+                            <label for="portfolio">Portfolio Website</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-globe input-icon"></i>
+                                <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com">
+                            </div>
+                            <span class="error-msg" id="error-portfolio"></span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 2: PROFESSIONAL SUMMARY ====== -->
+            <article class="form-card" id="card-summary">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                    <div class="card-title-group">
+                        <h2>Professional Summary</h2>
+                        <p>Introduce yourself to potential employers</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group full-width">
+                        <label for="summary">Career Objective / Professional Summary <span class="required">*</span></label>
+                        <textarea id="summary" name="summary" rows="5" placeholder="e.g. Motivated Computer Science student passionate about software development with hands-on experience in building web applications using modern technologies. Seeking an opportunity to apply my technical skills and creativity in a dynamic team environment." minlength="40" required aria-required="true"></textarea>
+                        <div class="textarea-footer">
+                            <span class="error-msg" id="error-summary"></span>
+                            <span class="char-counter" id="summary-counter">0 / 300 words</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 3: EDUCATION ====== -->
+            <article class="form-card" id="card-education">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="card-title-group">
+                        <h2>Education</h2>
+                        <p>Your academic background and qualifications</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="education-entries">
+                        <!-- Dynamic education entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-education-btn" aria-label="Add education entry">
+                        <i class="fas fa-plus"></i> Add Education
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 4: SKILLS ====== -->
+            <article class="form-card" id="card-skills">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-code"></i></div>
+                    <div class="card-title-group">
+                        <h2>Skills</h2>
+                        <p>Technical and soft skills that set you apart</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="skill-input-row">
+                        <div class="input-wrapper skill-input-wrapper">
+                            <i class="fas fa-plus-circle input-icon"></i>
+                            <input type="text" id="skill-input" placeholder="e.g. JavaScript" maxlength="40" aria-label="Enter a skill">
+                        </div>
+                        <button type="button" class="btn btn-add btn-add-skill" id="add-skill-btn" aria-label="Add skill">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <p class="helper-text">Press Enter or click Add. Maximum 40 skills.</p>
+                    <div class="skills-badges" id="skills-badges" aria-label="Added skills">
+                        <!-- Skill badges appear here -->
+                    </div>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 5: PROJECTS ====== -->
+            <article class="form-card" id="card-projects">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-project-diagram"></i></div>
+                    <div class="card-title-group">
+                        <h2>Projects</h2>
+                        <p>Showcase your personal and academic projects</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="project-entries">
+                        <!-- Dynamic project entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-project-btn" aria-label="Add project entry">
+                        <i class="fas fa-plus"></i> Add Project
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 6: EXPERIENCE ====== -->
+            <article class="form-card" id="card-experience">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-briefcase"></i></div>
+                    <div class="card-title-group">
+                        <h2>Work Experience</h2>
+                        <p>Your professional work history</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="experience-entries">
+                        <!-- Dynamic experience entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-experience-btn" aria-label="Add experience entry">
+                        <i class="fas fa-plus"></i> Add Experience
+                    </button>
+                    <p class="helper-text">Leave empty if you're a fresher — it will show "Fresher" on your resume.</p>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 7: CERTIFICATES ====== -->
+            <article class="form-card" id="card-certificates">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="card-title-group">
+                        <h2>Certificates</h2>
+                        <p>Professional certifications and courses</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="certificate-entries">
+                        <!-- Dynamic certificate entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-certificate-btn" aria-label="Add certificate entry">
+                        <i class="fas fa-plus"></i> Add Certificate
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 8: ACHIEVEMENTS ====== -->
+            <article class="form-card" id="card-achievements">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="card-title-group">
+                        <h2>Achievements</h2>
+                        <p>Awards, competitions, hackathons, and recognitions</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="achievement-entries">
+                        <!-- Dynamic achievement entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-achievement-btn" aria-label="Add achievement entry">
+                        <i class="fas fa-plus"></i> Add Achievement
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 9: LANGUAGES ====== -->
+            <article class="form-card" id="card-languages">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-language"></i></div>
+                    <div class="card-title-group">
+                        <h2>Languages</h2>
+                        <p>Languages you can communicate in</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="language-entries">
+                        <!-- Dynamic language entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-language-btn" aria-label="Add language entry">
+                        <i class="fas fa-plus"></i> Add Language
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 10: HOBBIES ====== -->
+            <article class="form-card" id="card-hobbies">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-heart"></i></div>
+                    <div class="card-title-group">
+                        <h2>Hobbies &amp; Interests</h2>
+                        <p>What you enjoy doing outside of work</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="skill-input-row">
+                        <div class="input-wrapper skill-input-wrapper">
+                            <i class="fas fa-plus-circle input-icon"></i>
+                            <input type="text" id="hobby-input" placeholder="e.g. Photography" maxlength="30" aria-label="Enter a hobby">
+                        </div>
+                        <button type="button" class="btn btn-add btn-add-skill" id="add-hobby-btn" aria-label="Add hobby">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="skills-badges" id="hobbies-badges" aria-label="Added hobbies">
+                        <!-- Hobby badges appear here -->
+                    </div>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 11: REFERENCES ====== -->
+            <article class="form-card" id="card-references">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <div class="card-title-group">
+                        <h2>References <span class="optional">(Optional)</span></h2>
+                        <p>Professional references who can vouch for you</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="reference-entries">
+                        <!-- Dynamic reference entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-reference-btn" aria-label="Add reference entry">
+                        <i class="fas fa-plus"></i> Add Reference
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== SECTION 12: CUSTOM SECTIONS ====== -->
+            <article class="form-card" id="card-custom">
+                <div class="card-header">
+                    <div class="card-icon"><i class="fas fa-puzzle-piece"></i></div>
+                    <div class="card-title-group">
+                        <h2>Custom Sections</h2>
+                        <p>Add your own sections like Volunteer Work, Publications, or Open Source</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="custom-entries">
+                        <!-- Dynamic custom section entries will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-add" id="add-custom-btn" aria-label="Add custom section">
+                        <i class="fas fa-plus"></i> Add Custom Section
+                    </button>
+                </div>
+            </article>
+
+            <!-- ====== ACTION BUTTONS (MOBILE) ====== -->
+            <div class="mobile-actions">
+                <button type="button" class="btn btn-primary btn-full" id="mobile-download-btn" aria-label="Download resume as PDF">
+                    <i class="fas fa-download"></i> Download Resume
+                </button>
+                <button type="button" class="btn btn-secondary btn-full" id="mobile-print-btn" aria-label="Print resume">
+                    <i class="fas fa-print"></i> Print Resume
+                </button>
+                <button type="button" class="btn btn-danger btn-full" id="mobile-reset-btn" aria-label="Reset resume">
+                    <i class="fas fa-redo-alt"></i> Reset Resume
+                </button>
+            </div>
+
+        </section>
+
+        <!-- ==================== RIGHT SIDE: LIVE RESUME PREVIEW ==================== -->
+        <aside class="preview-panel" aria-label="Live Resume Preview">
+            <div class="preview-toolbar">
+                <h2 class="preview-title"><i class="fas fa-eye"></i> Live Preview</h2>
+                <div class="preview-actions">
+                    <button type="button" class="btn btn-primary" id="download-btn" aria-label="Download resume as PDF">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="print-btn" aria-label="Print resume">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button type="button" class="btn btn-danger" id="reset-btn" aria-label="Reset resume">
+                        <i class="fas fa-redo-alt"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resume Preview Container -->
+            <div class="resume-wrapper" id="resume-wrapper">
+                <div class="resume-page" id="resume-page">
+
+                    <!-- Empty State -->
+                    <div class="resume-empty-state" id="resume-empty-state">
+                        <div class="empty-icon"><i class="fas fa-file-alt"></i></div>
+                        <h3>Your Resume Preview</h3>
+                        <p>Start filling the form to generate your professional resume.</p>
+                    </div>
+
+                    <!-- Resume Content (hidden until data exists) -->
+                    <div class="resume-content" id="resume-content" style="display:none;">
+
+                        <!-- Resume Header -->
+                        <header class="resume-header" id="resume-header">
+                            <div class="resume-header-left">
+                                <div class="resume-photo" id="resume-photo">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                            </div>
+                            <div class="resume-header-right">
+                                <h1 class="resume-name" id="resume-name"></h1>
+                                <div class="resume-contact" id="resume-contact">
+                                    <!-- Contact items rendered by JS -->
+                                </div>
+                            </div>
+                        </header>
+
+                        <!-- Career Objective -->
+                        <section class="resume-section" id="resume-summary-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-bullseye"></i> Career Objective</h2>
+                            <div class="resume-divider"></div>
+                            <p class="resume-summary-text" id="resume-summary-text"></p>
+                        </section>
+
+                        <!-- Education -->
+                        <section class="resume-section" id="resume-education-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-graduation-cap"></i> Education</h2>
+                            <div class="resume-divider"></div>
+                            <div id="resume-education-list"></div>
+                        </section>
+
+                        <!-- Skills -->
+                        <section class="resume-section" id="resume-skills-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-code"></i> Skills</h2>
+                            <div class="resume-divider"></div>
+                            <div class="resume-skills-list" id="resume-skills-list"></div>
+                        </section>
+
+                        <!-- Projects -->
+                        <section class="resume-section" id="resume-projects-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-project-diagram"></i> Projects</h2>
+                            <div class="resume-divider"></div>
+                            <div id="resume-projects-list"></div>
+                        </section>
+
+                        <!-- Experience -->
+                        <section class="resume-section" id="resume-experience-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-briefcase"></i> Experience</h2>
+                            <div class="resume-divider"></div>
+                            <div id="resume-experience-list"></div>
+                        </section>
+
+                        <!-- Certificates -->
+                        <section class="resume-section" id="resume-certificates-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-certificate"></i> Certificates</h2>
+                            <div class="resume-divider"></div>
+                            <div id="resume-certificates-list"></div>
+                        </section>
+
+                        <!-- Achievements -->
+                        <section class="resume-section" id="resume-achievements-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-trophy"></i> Achievements</h2>
+                            <div class="resume-divider"></div>
+                            <ul class="resume-achievements-list" id="resume-achievements-list"></ul>
+                        </section>
+
+                        <!-- Languages -->
+                        <section class="resume-section" id="resume-languages-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-language"></i> Languages</h2>
+                            <div class="resume-divider"></div>
+                            <div class="resume-languages-list" id="resume-languages-list"></div>
+                        </section>
+
+                        <!-- Hobbies -->
+                        <section class="resume-section" id="resume-hobbies-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-heart"></i> Hobbies &amp; Interests</h2>
+                            <div class="resume-divider"></div>
+                            <div class="resume-hobbies-list" id="resume-hobbies-list"></div>
+                        </section>
+
+                        <!-- References -->
+                        <section class="resume-section" id="resume-references-section" style="display:none;">
+                            <h2 class="resume-section-title"><i class="fas fa-users"></i> References</h2>
+                            <div class="resume-divider"></div>
+                            <div id="resume-references-list"></div>
+                        </section>
+
+                        <!-- Custom Sections -->
+                        <div id="resume-custom-sections"></div>
+
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- ==================== RESET CONFIRMATION MODAL ==================== -->
+    <div class="modal-overlay" id="reset-modal" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 id="reset-modal-title">Reset Resume?</h3>
+            <p>Are you sure you want to reset? All your data will be permanently deleted and cannot be recovered.</p>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="reset-cancel-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button type="button" class="btn btn-danger" id="reset-confirm-btn">
+                    <i class="fas fa-trash-alt"></i> Yes, Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DOWNLOAD SPINNER OVERLAY ==================== -->
+    <div class="spinner-overlay" id="download-spinner" style="display:none;" role="status" aria-label="Generating PDF">
+        <div class="spinner-card">
+            <div class="spinner"></div>
+            <p>Generating your resume PDF...</p>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <h3><i class="fas fa-file-alt"></i> ResumeCraft</h3>
+                <p>Build Beautiful Professional Resumes in Minutes</p>
+            </div>
+            <div class="footer-developer">
+                <p><strong>Developer:</strong> <span id="dev-name">Gunjan Mishra</span></p>
+                <p><strong>Email:</strong> <a href="mailto:your@email.com" id="dev-email-link">gm072775@email.com</a></p>
+                <div class="footer-social">
+                    <a href="https://github.com/Gunjan9711" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Portfolio website" title="Portfolio">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="footer-year">2026</span> ResumeCraft. Built with <span class="heart">&hearts;</span> using HTML, CSS &amp; JavaScript</p>
+                
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== DYNAMIC ENTRY TEMPLATES (hidden) ==================== -->
+    <!-- Education Entry Template -->
+    <template id="template-education-entry">
+        <div class="dynamic-entry education-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this education entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Degree / Qualification <span class="required">*</span></label>
+                    <input type="text" class="edu-degree" placeholder="e.g. B.Tech in Computer Science" required>
+                </div>
+                <div class="form-group">
+                    <label>College / School <span class="required">*</span></label>
+                    <input type="text" class="edu-college" placeholder="e.g. IIT Delhi" required>
+                </div>
+                <div class="form-group">
+                    <label>University / Board</label>
+                    <input type="text" class="edu-university" placeholder="e.g. Delhi University">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="edu-location" placeholder="e.g. New Delhi, India">
+                </div>
+                <div class="form-group">
+                    <label>Start Year <span class="required">*</span></label>
+                    <input type="number" class="edu-start-year" placeholder="e.g. 2020" min="1970" max="2030">
+                </div>
+                <div class="form-group">
+                    <label>End Year <span class="required">*</span></label>
+                    <input type="number" class="edu-end-year" placeholder="e.g. 2024" min="1970" max="2035">
+                </div>
+                <div class="form-group">
+                    <label>Percentage / CGPA</label>
+                    <input type="text" class="edu-grade" placeholder="e.g. 8.5 CGPA or 85%">
+                </div>
+            </div>
+            <span class="error-msg entry-error"></span>
+        </div>
+    </template>
+
+    <!-- Project Entry Template -->
+    <template id="template-project-entry">
+        <div class="dynamic-entry project-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this project entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Project Title <span class="required">*</span></label>
+                    <input type="text" class="proj-title" placeholder="e.g. E-Commerce Website" required>
+                </div>
+                <div class="form-group">
+                    <label>Technologies Used <span class="required">*</span></label>
+                    <input type="text" class="proj-tech" placeholder="e.g. HTML, CSS, JavaScript, Node.js" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Description <span class="required">*</span></label>
+                    <textarea class="proj-description" rows="3" placeholder="Describe what this project does, its key features, and your role..." minlength="40" maxlength="250" required></textarea>
+                    <div class="textarea-footer">
+                        <span class="error-msg entry-error"></span>
+                        <span class="char-counter proj-char-counter">0 / 250</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>GitHub Link</label>
+                    <input type="url" class="proj-github" placeholder="https://github.com/user/project">
+                </div>
+                <div class="form-group">
+                    <label>Live Demo Link</label>
+                    <input type="url" class="proj-demo" placeholder="https://project-demo.vercel.app">
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" class="proj-duration" placeholder="e.g. 2 months">
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Experience Entry Template -->
+    <template id="template-experience-entry">
+        <div class="dynamic-entry experience-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this experience entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" class="exp-company" placeholder="e.g. Google">
+                </div>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" class="exp-title" placeholder="e.g. Software Engineer Intern">
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <input type="text" class="exp-duration" placeholder="e.g. Jun 2023 – Aug 2023">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="exp-location" placeholder="e.g. Bangalore, India">
+                </div>
+                <div class="form-group full-width">
+                    <label>Description</label>
+                    <textarea class="exp-description" rows="3" placeholder="Describe your responsibilities and achievements..."></textarea>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Certificate Entry Template -->
+    <template id="template-certificate-entry">
+        <div class="dynamic-entry certificate-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this certificate entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Certificate Name <span class="required">*</span></label>
+                    <input type="text" class="cert-name" placeholder="e.g. AWS Cloud Practitioner" required>
+                </div>
+                <div class="form-group">
+                    <label>Issuing Organization</label>
+                    <input type="text" class="cert-org" placeholder="e.g. Amazon Web Services">
+                </div>
+                <div class="form-group">
+                    <label>Issue Year</label>
+                    <input type="number" class="cert-year" placeholder="e.g. 2024" min="1990" max="2030">
+                </div>
+                <div class="form-group">
+                    <label>Credential URL</label>
+                    <input type="url" class="cert-url" placeholder="https://credential.example.com/verify">
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Achievement Entry Template -->
+    <template id="template-achievement-entry">
+        <div class="dynamic-entry achievement-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this achievement entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Achievement Title <span class="required">*</span></label>
+                    <input type="text" class="achv-title" placeholder="e.g. First Prize in National Hackathon" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="achv-description" placeholder="e.g. Won first place among 500+ teams">
+                </div>
+                <div class="form-group">
+                    <label>Year</label>
+                    <input type="number" class="achv-year" placeholder="e.g. 2024" min="1990" max="2030">
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Language Entry Template -->
+    <template id="template-language-entry">
+        <div class="dynamic-entry language-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this language entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Language <span class="required">*</span></label>
+                    <input type="text" class="lang-name" placeholder="e.g. English" required>
+                </div>
+                <div class="form-group">
+                    <label>Proficiency</label>
+                    <select class="lang-proficiency" aria-label="Select language proficiency">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced" selected>Advanced</option>
+                        <option value="Native">Native</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Reference Entry Template -->
+    <template id="template-reference-entry">
+        <div class="dynamic-entry reference-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this reference entry">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="ref-name" placeholder="e.g. Dr. Smith">
+                </div>
+                <div class="form-group">
+                    <label>Position</label>
+                    <input type="text" class="ref-position" placeholder="e.g. Professor of CS">
+                </div>
+                <div class="form-group">
+                    <label>Company / Organization</label>
+                    <input type="text" class="ref-company" placeholder="e.g. MIT">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="ref-email" placeholder="e.g. drsmith@mit.edu">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" class="ref-phone" placeholder="e.g. +1 234 567 8901">
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Custom Section Entry Template -->
+    <template id="template-custom-entry">
+        <div class="dynamic-entry custom-entry" data-index="">
+            <div class="entry-header">
+                <span class="entry-number"></span>
+                <button type="button" class="btn btn-icon btn-delete" aria-label="Delete this custom section">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label>Section Title <span class="required">*</span></label>
+                    <input type="text" class="custom-title" placeholder="e.g. Volunteer Work, Publications, Open Source" required>
+                </div>
+                <div class="form-group full-width">
+                    <label>Content <span class="required">*</span></label>
+                    <textarea class="custom-content" rows="4" placeholder="Describe this section in detail..." required></textarea>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="script.js"></script>
+</body>
+</html>
