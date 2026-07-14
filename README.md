@@ -78,7 +78,7 @@ ResumeCraft can be instantly deployed to Vercel, Netlify, or GitHub Pages. No bu
 
 | Dark Mode Form | Live Preview | PDF Export |
 |:---:|:---:|:---:|
-| ![Form Placeholder](https://via.placeholder.com/400x250/0F172A/00D9FF?text=Resume+Form+Dark) | ![Preview Placeholder](https://via.placeholder.com/400x250/FFFFFF/00D9FF?text=Live+Resume+Preview) | ![PDF Placeholder](https://via.placeholder.com/400x250/1E293B/00D9FF?text=Generated+PDF) |
+| ![Form Placeholder](https://via.placeholder.com/400x250/0F172A/00D9FF?text=Resume+Form+Dark) | ![Preview Placeholder]([https://via.placeholder.com/400x250/FFFFFF/00D9FF?text=Live+Resume+Preview](https://resume-craft-one-chi.vercel.app/)) | ![PDF Placeholder](https://via.placeholder.com/400x250/1E293B/00D9FF?text=Generated+PDF) |
 
 ---
 
