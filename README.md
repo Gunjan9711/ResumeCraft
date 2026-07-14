@@ -44,11 +44,6 @@ ResumeCraft/
 ├── style.css        # The complete design system, responsive breakpoints, and animations
 ├── script.js        # The application logic, state management, validation, and PDF export
 │
-├── assets/          # Directory for future icons, templates, and screenshots
-│   ├── icons/
-│   ├── images/
-│   ├── templates/
-│   └── screenshots/
 │
 ├── README.md        # Project documentation
 └── LICENSE          # MIT License file
@@ -62,7 +57,7 @@ Because ResumeCraft is a purely client-side application, getting started is incr
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/ResumeCraft.git
+   git clone https://github.com/Gunjan9711/ResumeCraft.git
    ```
 2. **Navigate to the directory:**
    ```bash
@@ -106,11 +101,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**[Developer Name]**  
+**[Gunjan Mishra]**  
 *Senior Frontend Developer / UI/UX Designer*
 
-- **Email:** [Developer Email]
-- **GitHub:** [https://github.com/yourusername](https://github.com/yourusername)
-- **Portfolio:** [https://yourportfolio.com](https://yourportfolio.com)
-
+- **Email:** [gm072775@gmail.com]
+- **GitHub:** [https://github.com/Gunjan9711](https://github.com/Gunjan9711/ResumeCraft.git)
+- **Portfolio:** (https://github.com/Gunjan9711/Portfolio.git)]
 ---
