@@ -70,7 +70,7 @@
     --space-3xl:  64px;
 
     /* --- Typography --- */
-    --font-family:   'Poppins', 'Inter', 'Roboto', 'Open Sans', 'Lato', sans-serif;
+    --font-family:   sans-serif, sans-serif, sans-serif, sans-serif, sans-serif;
     --font-size-xs:  0.7rem;
     --font-size-sm:  0.8rem;
     --font-size-md:  0.9rem;
