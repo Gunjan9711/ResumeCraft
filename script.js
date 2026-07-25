@@ -1870,7 +1870,7 @@ function updateProgress() {
 /**
  * Generate and download resume as PDF using html2pdf.js
  */
-function downloadResume() {
+async function downloadResume() {
     // Verify html2pdf is loaded
     if (typeof html2pdf === "undefined") {
         showToast("PDF library is not loaded. Please check your internet connection and refresh.", "error");
@@ -1882,6 +1882,7 @@ function downloadResume() {
         showToast("Please fill in some resume details before downloading.", "warning");
         return;
     }
+   await document.fonts.ready;
 
     // Show spinner
     DOM.downloadSpinner.style.display = "flex";
@@ -1893,7 +1894,7 @@ function downloadResume() {
         filename: `${AppState.resumeData.personal.fullName || "Resume"}_ResumeCraft.pdf`,
         image: { type: "jpeg", quality: 0.98 },
         html2canvas: {
-            scale: 2,
+            scale: 1.5,
             useCORS: true,
             logging: false,
             letterRendering: true,
@@ -1903,7 +1904,7 @@ function downloadResume() {
             format: "a4",
             orientation: "portrait",
         },
-        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        pagebreak: { mode: ["css", "legacy"] },
     };
 
     // Add a class for PDF-specific styling
