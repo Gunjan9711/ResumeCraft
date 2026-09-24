@@ -470,7 +470,7 @@ function applyTemplate(templateName) {
         // Remove all template classes
         DOM.resumePage.classList.remove(
             "template-modern", "template-professional",
-            "template-minimal", "template-creative"
+            "template-minimal", "template-creative", "template-ats"
         );
         DOM.resumePage.classList.add(`template-${templateName}`);
     }
@@ -1870,61 +1870,138 @@ function updateProgress() {
 /**
  * Generate and download resume as PDF using html2pdf.js
  */
-async function downloadResume() {
-    // Verify html2pdf is loaded
+function downloadResume() {
     if (typeof html2pdf === "undefined") {
         showToast("PDF library is not loaded. Please check your internet connection and refresh.", "error");
         return;
     }
-
-    // Check if there is content to download
     if (DOM.resumeContent.style.display === "none") {
         showToast("Please fill in some resume details before downloading.", "warning");
         return;
     }
-   await document.fonts.ready;
 
-    // Show spinner
     DOM.downloadSpinner.style.display = "flex";
 
     const resumeElement = DOM.resumePage;
 
-    const options = {
-        margin: 0,
-        filename: `${AppState.resumeData.personal.fullName || "Resume"}_ResumeCraft.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-            scale: 1.5,
-            useCORS: true,
-            logging: false,
-            letterRendering: true,
-        },
-        jsPDF: {
-            unit: "mm",
-            format: "a4",
-            orientation: "portrait",
-        },
-        pagebreak: { mode: ["css", "legacy"] },
-    };
+    // Step 1: Add pdf-generating class to BODY to hide form/header and remove overflow constraints
+    document.body.classList.add("pdf-generating");
 
-    // Add a class for PDF-specific styling
-    resumeElement.classList.add("pdf-generating");
+    // Step 2: Wait for browser to reflow so the resume is fully visible and not clipped
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            // --- FIX FOR ORPHANED HEADINGS (ReportLab-style KeepTogether) ---
+            const sectionsForPDF = resumeElement.querySelectorAll(".resume-section");
+            const tempWrappers = [];
+            
+            sectionsForPDF.forEach(section => {
+                const title = section.querySelector(".resume-section-title");
+                const divider = section.querySelector(".resume-divider");
+                
+                if (title && divider) {
+                    const contentContainer = divider.nextElementSibling;
+                    if (!contentContainer) return;
+                    
+                    let elementToWrap = null;
+                    let isFirstChildOnly = false;
+                    
+                    // If it's a vertical list (Experience, Education, Projects, Certs, Refs), wrap only the FIRST item
+                    if (["resume-experience-list", "resume-education-list", "resume-projects-list", "resume-certificates-list", "resume-references-list"].includes(contentContainer.id)) {
+                        if (contentContainer.firstElementChild) {
+                            elementToWrap = contentContainer.firstElementChild;
+                            isFirstChildOnly = true;
+                        }
+                    } else {
+                        // For Summary, Skills, Hobbies, Languages, Achievements - wrap the whole container
+                        // because they rely on flexbox/grid/ul styling or are short enough to always fit together.
+                        elementToWrap = contentContainer;
+                    }
+                    
+                    if (elementToWrap) {
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "pdf-page-break-wrapper";
+                        wrapper.style.pageBreakInside = "avoid";
+                        wrapper.style.breakInside = "avoid";
+                        
+                        section.insertBefore(wrapper, title);
+                        wrapper.appendChild(title);
+                        wrapper.appendChild(divider);
+                        wrapper.appendChild(elementToWrap);
+                        
+                        tempWrappers.push({ wrapper, section, title, divider, contentContainer, elementToWrap, isFirstChildOnly });
+                    }
+                }
+            });
 
-    html2pdf()
-        .set(options)
-        .from(resumeElement)
-        .save()
-        .then(() => {
-            DOM.downloadSpinner.style.display = "none";
-            resumeElement.classList.remove("pdf-generating");
-            showToast("Resume downloaded successfully!", "success");
-        })
-        .catch((err) => {
-            console.error("PDF generation error:", err);
-            DOM.downloadSpinner.style.display = "none";
-            resumeElement.classList.remove("pdf-generating");
-            showToast("Could not generate PDF. Please try again.", "error");
+            const options = {
+                margin: [0, 0, 0, 0],
+                filename: `${AppState.resumeData.personal.fullName || "Resume"}_ResumeCraft.pdf`,
+                image: { type: "jpeg", quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    width: 794,
+                    windowWidth: 794,
+                    scrollX: 0,
+                    scrollY: 0,
+                    x: 0,
+                    y: 0,
+                },
+                jsPDF: {
+                    unit: "mm",
+                    format: "a4",
+                    orientation: "portrait",
+                },
+                pagebreak: { 
+                    mode: ["css", "legacy"], 
+                    avoid: [".resume-exp-item", ".resume-edu-item", ".resume-project-item", ".resume-cert-item", ".resume-ref-item"] 
+                },
+            };
+
+            html2pdf()
+                .set(options)
+                .from(resumeElement)
+                .save()
+                .then(() => {
+                    // Restore original DOM structure
+                    tempWrappers.forEach(({ wrapper, section, title, divider, contentContainer, elementToWrap, isFirstChildOnly }) => {
+                        section.insertBefore(title, wrapper);
+                        section.insertBefore(divider, wrapper);
+                        
+                        if (isFirstChildOnly) {
+                            contentContainer.insertBefore(elementToWrap, contentContainer.firstChild);
+                        } else {
+                            section.insertBefore(elementToWrap, wrapper);
+                        }
+                        wrapper.remove();
+                    });
+
+                    DOM.downloadSpinner.style.display = "none";
+                    document.body.classList.remove("pdf-generating");
+                    showToast("Resume downloaded successfully!", "success");
+                })
+                .catch((err) => {
+                    // Restore original DOM structure on error too
+                    tempWrappers.forEach(({ wrapper, section, title, divider, contentContainer, elementToWrap, isFirstChildOnly }) => {
+                        section.insertBefore(title, wrapper);
+                        section.insertBefore(divider, wrapper);
+                        
+                        if (isFirstChildOnly) {
+                            contentContainer.insertBefore(elementToWrap, contentContainer.firstChild);
+                        } else {
+                            section.insertBefore(elementToWrap, wrapper);
+                        }
+                        wrapper.remove();
+                    });
+
+                    console.error("PDF generation error:", err);
+                    DOM.downloadSpinner.style.display = "none";
+                    document.body.classList.remove("pdf-generating");
+                    showToast("Could not generate PDF. Please try again.", "error");
+                });
         });
+    });
 }
 
 
